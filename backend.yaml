@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: datastore-v1
-  namespace: applications
+  namespace: apps
 spec:
   replicas: 1
   selector:
@@ -77,7 +77,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: datastore-v2
-  namespace: applications
+  namespace: apps
 spec:
   replicas: 1
   selector:
@@ -151,7 +151,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: datastore-svc
-  namespace: applications
+  namespace: apps
 spec:
   type: ClusterIP  
   ports:
@@ -166,7 +166,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: datastore-v1-svc
-  namespace: applications
+  namespace: apps
 spec:
   type: ClusterIP  
   ports:
@@ -182,7 +182,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: datastore-v2-svc
-  namespace: applications
+  namespace: apps
 spec:
   type: ClusterIP  
   ports:

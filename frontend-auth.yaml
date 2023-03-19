@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: apps
+  namespace: applications
 spec:
   replicas: 1
   selector:
@@ -13,6 +13,13 @@ spec:
     metadata:
       labels:
         app: frontend
+      annotations:
+        sidecar.aws.signing-proxy/inject: "true"
+        #sidecar.aws.signing-proxy/host: "backend-canary-store-0bb73f5d62694926a.7d67968.vpc-lattice-svcs.us-west-2.on.aws"
+        sidecar.aws.signing-proxy/name: "vpc-lattice-svcs"
+        sidecar.aws.signing-proxy/region: "us-west-2"
+        sidecar.aws.signing-proxy/unsigned-payload: "true"        
+        sidecar.aws.signing-proxy/scheme: "https"        
     spec: 
       serviceAccountName: aws-sigv4-proxy
       containers:          
@@ -55,7 +62,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend-svc
-  namespace: apps
+  namespace: applications
 spec:
   type: ClusterIP  
   ports:
