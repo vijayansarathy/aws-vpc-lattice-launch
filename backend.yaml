@@ -2,19 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: datastore-v1
+  name: backend-v1
   namespace: apps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: datastore
+      app: backend
+      role: database-service
       version: v1
   template:
     metadata:
       labels:
-        app: datastore
+        app: backend
+        role: database-service     
         version: v1   
+      annotations:
+        prometheus.io/scrape: 'false'     
     spec: 
       containers:          
         - name: go  
@@ -76,19 +80,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: datastore-v2
+  name: backend-v2
   namespace: apps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: datastore
+      app: backend
+      role: database-service
       version: v2
   template:
     metadata:
       labels:
-        app: datastore
+        app: backend
+        role: database-service    
         version: v2    
+      annotations:
+        prometheus.io/scrape: 'false'     
     spec: 
       containers:          
         - name: go  
@@ -146,50 +154,5 @@ spec:
             periodSeconds: 10
             failureThreshold: 3      
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: datastore-svc
-  namespace: apps
-spec:
-  type: ClusterIP  
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 3000
-  selector:
-    app: datastore
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: datastore-v1-svc
-  namespace: apps
-spec:
-  type: ClusterIP  
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 3000
-  selector:
-    app: datastore
-    version: v1
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: datastore-v2-svc
-  namespace: apps
-spec:
-  type: ClusterIP  
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 3000
-  selector:
-    app: datastore
-    version: v2    
+  
   

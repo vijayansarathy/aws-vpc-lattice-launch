@@ -2,15 +2,17 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: HTTPRoute
 metadata:
-  name: backend-canary
+  name: backend
   namespace: apps
 spec:
+  hostnames:
+  - datastore.lattice.sarathy.io
   parentRefs:
-  - name: eks-multi-cluster
+  - name: eks-lattice-network
     sectionName: http 
   rules:  
   - backendRefs:  
-    - name: datastore-v1-svc
+    - name: backend-v1-svc
       kind: Service
       port: 3000
       namespace: apps
@@ -19,12 +21,12 @@ spec:
         type: PathPrefix
         value: /popular
   - backendRefs:  
-    - name: datastore-v1-svc
+    - name: backend-v1-svc
       kind: Service
       port: 3000
       namespace: apps
       weight: 50
-    - name: datastore-v2-svc
+    - name: backend-v2-svc
       kind: Service
       port: 3000
       namespace: apps      
@@ -34,4 +36,42 @@ spec:
         type: PathPrefix
         value: /summary
 
-       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-v1-svc
+  namespace: apps
+  annotations:
+    service.kubernetes.io/topology-aware-hints: auto
+spec:
+  sessionAffinity: None
+  type: ClusterIP  
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: backend
+    role: database-service  
+    version: v1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-v2-svc
+  namespace: apps
+  annotations:
+    service.kubernetes.io/topology-aware-hints: auto
+spec:
+  sessionAffinity: None
+  type: ClusterIP  
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: backend
+    role: database-service  
+    version: v2         
