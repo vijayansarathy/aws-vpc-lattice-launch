@@ -14,18 +14,13 @@ spec:
       labels:
         app: frontend
     spec: 
-      serviceAccountName: aws-sigv4-proxy
       containers:          
         - name: go  
           image: 937351930975.dkr.ecr.us-west-2.amazonaws.com/k8s-frontend:lattice
           imagePullPolicy: Always   
           env:
-            - name: AWS_REGION
-              value: us-west-2
-            - name: DATASTORE_SERVICE_PROTOCOL
-              value: http
             - name: DATASTORE_SERVICE_URL
-              value: localhost:8005
+              value: datastore.lattice.sarathy.io
           ports:
             - name: http
               containerPort: 3000
