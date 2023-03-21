@@ -2,8 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
-  namespace: applications
+  name: frontend-auth
+  namespace: apps
 spec:
   replicas: 1
   selector:
@@ -15,22 +15,18 @@ spec:
         app: frontend
       annotations:
         sidecar.aws.signing-proxy/inject: "true"
-        #sidecar.aws.signing-proxy/host: "backend-canary-store-0bb73f5d62694926a.7d67968.vpc-lattice-svcs.us-west-2.on.aws"
+        sidecar.aws.signing-proxy/host: "datastore.lattice.sarathy.io"
         sidecar.aws.signing-proxy/name: "vpc-lattice-svcs"
         sidecar.aws.signing-proxy/region: "us-west-2"
         sidecar.aws.signing-proxy/unsigned-payload: "true"        
-        sidecar.aws.signing-proxy/scheme: "https"        
+        sidecar.aws.signing-proxy/scheme: "http"        
     spec: 
-      serviceAccountName: aws-sigv4-proxy
+      serviceAccountName: aws-sigv4-client
       containers:          
         - name: go  
           image: 937351930975.dkr.ecr.us-west-2.amazonaws.com/k8s-frontend:lattice
           imagePullPolicy: Always   
           env:
-            - name: AWS_REGION
-              value: us-west-2
-            - name: DATASTORE_SERVICE_PROTOCOL
-              value: http
             - name: DATASTORE_SERVICE_URL
               value: localhost:8005
           ports:
@@ -61,8 +57,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-svc
-  namespace: applications
+  name: frontend-auth-svc
+  namespace: apps
 spec:
   type: ClusterIP  
   ports:
