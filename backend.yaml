@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-v1
+  name: datastore-v1
   namespace: apps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: datastore
       role: database-service
       version: v1
   template:
     metadata:
       labels:
-        app: backend
+        app: datastore
         role: database-service     
         version: v1   
       annotations:
@@ -80,19 +80,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-v2
+  name: datastore-v2
   namespace: apps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: datastore
       role: database-service
       version: v2
   template:
     metadata:
       labels:
-        app: backend
+        app: datastore
         role: database-service    
         version: v2    
       annotations:

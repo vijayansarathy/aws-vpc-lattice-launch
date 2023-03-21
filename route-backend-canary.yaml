@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: HTTPRoute
 metadata:
-  name: backend
+  name: datastore
   namespace: apps
 spec:
   hostnames:
@@ -12,7 +12,7 @@ spec:
     sectionName: http 
   rules:  
   - backendRefs:  
-    - name: backend-v1-svc
+    - name: datastore-v1-svc
       kind: Service
       port: 3000
       namespace: apps
@@ -21,12 +21,12 @@ spec:
         type: PathPrefix
         value: /popular
   - backendRefs:  
-    - name: backend-v1-svc
+    - name: datastore-v1-svc
       kind: Service
       port: 3000
       namespace: apps
       weight: 50
-    - name: backend-v2-svc
+    - name: datastore-v2-svc
       kind: Service
       port: 3000
       namespace: apps      
@@ -40,7 +40,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-v1-svc
+  name: datastore-v1-svc
   namespace: apps
   annotations:
     service.kubernetes.io/topology-aware-hints: auto
@@ -52,7 +52,7 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: backend
+    app: datastore
     role: database-service  
     version: v1
 
@@ -60,7 +60,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-v2-svc
+  name: datastore-v2-svc
   namespace: apps
   annotations:
     service.kubernetes.io/topology-aware-hints: auto
@@ -72,6 +72,6 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: backend
+    app: datastore
     role: database-service  
     version: v2         

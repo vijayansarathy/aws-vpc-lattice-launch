@@ -4,7 +4,7 @@
        {
            "Effect": "Allow",
            "Principal": {
-               "AWS": "arn:aws:iam::937351930975:role/aws-sigv4-proxy"
+               "AWS": "arn:aws:iam::937351930975:role/aws-sigv4-client"
            },
            "Action": "vpc-lattice-svcs:Invoke",
            "Resource": "arn:aws:vpc-lattice:us-west-2:937351930975:service/svc-039bd9a59fdefd2dc/*",

@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: HTTPRoute
 metadata:
-  name: backend
+  name: datastore
   namespace: apps
 spec:
   hostnames:
@@ -12,7 +12,7 @@ spec:
     sectionName: http 
   rules:
   - backendRefs:  
-    - name: backend-svc
+    - name: datastore-svc
       kind: Service
       port: 3000
       namespace: apps
@@ -21,7 +21,7 @@ spec:
         type: PathPrefix
         value: /popular
   - backendRefs:  
-    - name: backend-svc
+    - name: datastore-svc
       kind: Service
       port: 3000
       namespace: apps
@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-svc
+  name: datastore-svc
   namespace: apps
   annotations:
     service.kubernetes.io/topology-aware-hints: auto
@@ -46,5 +46,5 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: backend
+    app: datastore
     role: database-service          
