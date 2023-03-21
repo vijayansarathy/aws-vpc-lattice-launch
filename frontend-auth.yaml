@@ -24,7 +24,7 @@ spec:
       serviceAccountName: aws-sigv4-client
       containers:          
         - name: go  
-          image: 937351930975.dkr.ecr.us-west-2.amazonaws.com/k8s-frontend:lattice
+          image: public.ecr.aws/awsvijisarathy/k8s-frontend:v1     
           imagePullPolicy: Always   
           env:
             - name: DATASTORE_SERVICE_URL

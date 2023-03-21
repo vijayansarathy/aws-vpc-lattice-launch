@@ -22,7 +22,7 @@ spec:
     spec: 
       containers:          
         - name: go  
-          image: 937351930975.dkr.ecr.us-west-2.amazonaws.com/k8s-backend:v1
+          image: public.ecr.aws/awsvijisarathy/k8s-backend:v1
           imagePullPolicy: Always   
           env:
             - name: POSTGRES_USER
@@ -100,7 +100,7 @@ spec:
     spec: 
       containers:          
         - name: go  
-          image: 937351930975.dkr.ecr.us-west-2.amazonaws.com/k8s-backend:v2
+          image: public.ecr.aws/awsvijisarathy/k8s-backend:v2
           imagePullPolicy: Always   
           env:
             - name: POSTGRES_USER
